@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - MOCK_MODE=${MOCK_MODE:-false}
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+      - SQLITE_DB_PATH=/app/data/structured.db
+      - ENABLE_PII_REDACTION=${ENABLE_PII_REDACTION:-false}
+      - ENABLE_INJECTION_GUARD=${ENABLE_INJECTION_GUARD:-true}
+      - CONFIDENCE_THRESHOLD=${CONFIDENCE_THRESHOLD:-0.25}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  chroma_data:

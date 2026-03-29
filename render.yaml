@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: agentic-rag-chatbot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com/v1
+      - key: LLM_MODEL
+        value: gpt-4o-mini
+      - key: EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: MOCK_MODE
+        value: "false"
+      - key: CHROMA_PERSIST_DIR
+        value: /app/data/chroma_db
+      - key: SQLITE_DB_PATH
+        value: /app/data/structured.db
+      - key: ENABLE_PII_REDACTION
+        value: "false"
+      - key: ENABLE_INJECTION_GUARD
+        value: "true"
+      - key: CONFIDENCE_THRESHOLD
+        value: "0.25"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: CORS_ORIGINS
+        value: '["*"]'
+    healthCheckPath: /health
