@@ -33,7 +33,7 @@ User ──► FastAPI /chat
 
 ## Live Demo
 
-**Try it now:** [https://naresh-ragchat.onrender.com](https://naresh-ragchat.onrender.com)
+**Try it now:** (https://agentic-rag-chatbot-db4q.onrender.com/)
 
 > No setup needed — just enter your OpenAI API key in the UI and start chatting.
 
